@@ -15,3 +15,11 @@ app.get('/', function (req, res) {
   };
   res.json(reply);
 });
+
+app.post('/action-endpoint', function (req, res) {
+  const challenge = req.body.challenge;
+  const reply = {
+    "challenge": challenge"
+  };
+  res.json(reply);
+});
