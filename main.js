@@ -19,7 +19,7 @@ app.get('/', function (req, res) {
 app.post('/action-endpoint', function (req, res) {
   const challenge = req.body.challenge;
   const reply = {
-    "challenge": challenge"
+      "challenge": challenge
   };
   res.json(reply);
 });
