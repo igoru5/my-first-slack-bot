@@ -12,7 +12,7 @@ app.get('/', function (req, res) {
     res.json(reply);
 });
 
-app.post('https://igorubot.herokuapp.com/action-endpoint', function (req, res) {
+app.post('/action-endpoint', function (req, res) {
   const challenge = req.body.challenge;
 
   const reply = {
