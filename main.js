@@ -17,9 +17,48 @@ app.get('/', function (req, res) {
 });
 
 app.post('/action-endpoint', function (req, res) {
-  const challenge = req.body.challenge;
+  const challenge = req.body.challenge; // this challenge is needed to ensure slack that our bot works
   const reply = {
       "challenge": challenge
   };
+
+  const headers = {
+    'Content-type': 'application/json',
+    'Authorization': `Bearer ${process.env.TOKEN}` // Token needs to be setup on Heroku.
+  }
+
+  // console.log(req.body.event);
+
+  if (req.body.event.subtype != 'bot_message') { // So we won't reply to ourselves...
+    request.get('https://api.coindesk.com/v1/bpi/currentprice/EUR.json', function(err, res, body) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        const coindesk = JSON.parse(body);
+        const rate = coindesk.bpi.EUR.rate;
+        const reply = {
+          'channel': req.body.event.channel,
+          text: `Current BTC rate: ${rate} EUR per 1 BTC`
+        }
+
+        const options = {
+          url:   'https://slack.com/api/chat.postMessage',
+          method: 'POST',
+          headers,
+          body:  JSON.stringify(reply)
+        };
+
+        console.log(body);
+
+        request.post(options, function(err, res, body) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+    });
+  }
+
   res.json(reply);
 });
