@@ -26,7 +26,7 @@ app.post('/action-endpoint', function (req, res) {
 
   // console.log(req.body.event);
 
-  if (req.body.event.subtype != 'bot_message') { // se we won't reply to ourselves...
+  /*if (req.body.event.subtype != 'bot_message') {
     const body = {
       'channel': req.body.event.channel,
       'text': 'Hello there'
@@ -44,7 +44,7 @@ app.post('/action-endpoint', function (req, res) {
         console.log(err);
       }
     })
-  }
+  }*/
 
   res.json(reply);
 });
